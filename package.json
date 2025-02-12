@@ -1,0 +1,26 @@
+{
+  "name": "ddd_sample",
+  "version": "1.0.0",
+  "description": "ddd_sample",
+  "main": "index.js",
+  "scripts": {
+    "build": "prisma generate",
+    "dev": "tsx watch src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install:docker": "docker exec -it ddd_sample-api-1 npm install",
+    "prisma:generate": "docker exec -it ddd_sample-api-1 npx prisma generate",
+    "prisma:migrate": "docker exec -it ddd_sample-api-1 npx prisma migrate dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.3.1",
+    "prisma": "^6.3.1",
+    "@hono/node-server": "^1.13.8",
+    "hono": "^4.6.20"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1"
+  }
+}
