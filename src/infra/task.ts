@@ -6,8 +6,8 @@ import type { Database } from "./database";
 export class TaskRepository implements ITaskRepository {
   constructor(private readonly db: Database) {}
 
-  async create(task: Task): Promise<void> {
-    await this.db.tasks.create({
+  async create(task: Task): Promise<Task> {
+    const result = await this.db.tasks.create({
       data: {
         id: task._id._value,
         name: task._name._value,
@@ -16,10 +16,14 @@ export class TaskRepository implements ITaskRepository {
         created_by_user_id: task._createdByUserId._value,
       },
     });
+
+    task.reconstructor(new TaskId(result.id), new TaskName(result.name), result.status, new UserId(result.created_by_user_id), result.assigned_user_id ? new UserId(result.assigned_user_id) : undefined);
+
+    return task;
   }
 
-  async save(task: Task): Promise<void> {
-    await this.db.tasks.update({
+  async save(task: Task): Promise<Task> {
+    const result = await this.db.tasks.update({
       where: {
         id: task._id._value,
       },
@@ -30,6 +34,10 @@ export class TaskRepository implements ITaskRepository {
         created_by_user_id: task._createdByUserId._value,
       },
     });
+
+    task.reconstructor(new TaskId(result.id), new TaskName(result.name), result.status, new UserId(result.created_by_user_id), result.assigned_user_id ? new UserId(result.assigned_user_id) : undefined);
+
+    return task;
   }
 
   async findById(id: TaskId): Promise<Task | null> {

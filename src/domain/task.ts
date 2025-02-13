@@ -102,7 +102,7 @@ export class Task {
 
 
 export interface ITaskRepository {
-  create(task: Task): Promise<void>;
-  save(task: Task): Promise<void>;
+  create(task: Task): Promise<Task>;
+  save(task: Task): Promise<Task>;
   findById(id: TaskId): Promise<Task | null>;
 }
