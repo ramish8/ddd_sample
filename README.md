@@ -73,6 +73,22 @@ describe("CreateTaskUsecase", () => {
 
 例えば、`TaskRepository`の実装を変更する場合でも、`ITaskRepository`インターフェースを実装する限り、ドメインやユースケース層のコードを変更する必要はありません。
 
+##### 実装例
+
+```typescript
+export const createTask = async (
+  name: TaskName,
+  status: TaskStatusType,
+  createdByUserId: UserId
+): Promise<void> => {
+  await prisma.$transaction(async (tx) => {
+    // NOTE: 実装をDIする
+    const usecase = new CreateTaskUsecase(new TaskRepository(tx));
+    await usecase.execute(name, status, createdByUserId);
+  });
+};
+```
+
 ## プロジェクト構造
 
 ```
