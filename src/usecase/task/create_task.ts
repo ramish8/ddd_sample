@@ -5,7 +5,7 @@ export class CreateTaskUsecase {
   constructor(private readonly taskRepository: ITaskRepository) {}
 
   async execute(name: TaskName, status: TaskStatusType, createdByUserId: UserId, assignedUserId?: UserId): Promise<void> {
-    const task = new Task(new TaskId(), name, status, createdByUserId, assignedUserId);
+    const task = new Task(name, status, createdByUserId, assignedUserId);
     await this.taskRepository.create(task);
   }
 }

@@ -25,8 +25,8 @@ export class UserRepository implements IUserRepository {
       return null;
     }
 
-    const user = new User(new UserId(), new UserName(result.name));
-    user._id._value = result.id;
+    const user = new User(new UserName(result.name));
+    user.reconstructor(new UserId(result.id), new UserName(result.name));
     return user;
   }
 }

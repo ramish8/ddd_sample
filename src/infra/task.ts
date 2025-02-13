@@ -43,24 +43,21 @@ export class TaskRepository implements ITaskRepository {
       return null;
     }
 
-    const createdByUserId = new UserId();
-    createdByUserId._value = result.created_by_user_id;
+    const createdByUserId = new UserId(result.created_by_user_id);
 
-    // NOTE: constだけを使いたいなら違う設計にした方がよい
-    let assignedUserId: UserId | undefined;
-    if (result.assigned_user_id) {
-      assignedUserId = new UserId();
-      assignedUserId._value = result.assigned_user_id;
-    }
+    const assignedUserId = result.assigned_user_id ? new UserId(result.assigned_user_id) : undefined;
 
 
-    return new Task(
-      new TaskId(),
+    const task =new Task(
       new TaskName(result.name),
       result.status,
       createdByUserId,
       assignedUserId
     );
+
+    task.reconstructor(new TaskId(result.id), new TaskName(result.name), result.status, createdByUserId, assignedUserId);
+
+    return task;
   }
 }
 

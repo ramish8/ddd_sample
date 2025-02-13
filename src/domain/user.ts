@@ -1,8 +1,6 @@
 export class UserId {
-  private value!: string;
-  constructor() {}
-
-  set _value(value: string) {
+  private value: string;
+  constructor(value: string) {
     this.value = value;
   }
 
@@ -24,8 +22,8 @@ export class UserName {
 }
 
 export class User {
+  private id!: UserId;
   constructor(
-    private readonly id: UserId,
     private name: UserName
   ) {}
 
@@ -35,6 +33,12 @@ export class User {
 
   get _name(): UserName {
     return this.name;
+  }
+
+  reconstructor(id: UserId, name: UserName): User {
+    this.id = id;
+    this.name = name;
+    return this;
   }
 
   rename(name: UserName): User {

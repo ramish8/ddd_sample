@@ -13,10 +13,8 @@ const TASK_STATUS_TYPE = [
 export type TaskStatusType = (typeof TASK_STATUS_TYPE)[number];
 
 export class TaskId {
-  private value!: string;
-  constructor() {}
-
-  set _value(value: string) {
+  private value: string;
+  constructor(value: string) {
     this.value = value;
   }
 
@@ -38,8 +36,9 @@ export class TaskName {
 }
 
 export class Task {
+  private id!: TaskId;
+
   constructor(
-    private readonly id: TaskId,
     private name: TaskName,
     private status: TaskStatusType = TASK_STATUS_TODO,
     private createdByUserId: UserId,
@@ -64,6 +63,15 @@ export class Task {
 
   get _assignedUserId(): UserId | undefined {
     return this.assignedUserId;
+  }
+
+  reconstructor(id: TaskId, name: TaskName, status: TaskStatusType, createdByUserId: UserId, assignedUserId?: UserId): Task {
+    this.id = id;
+    this.name = name;
+    this.status = status;
+    this.createdByUserId = createdByUserId;
+    this.assignedUserId = assignedUserId;
+    return this;
   }
 
   toDone(): Task {
