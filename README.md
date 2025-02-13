@@ -75,6 +75,8 @@ describe("CreateTaskUsecase", () => {
 
 ##### 実装例
 
+ORM などを変更したいときなどは、ITaskRepository を 実装した違う Repository の class を与えれば差し替えられると思います。
+
 ```typescript
 export const createTask = async (
   name: TaskName,
